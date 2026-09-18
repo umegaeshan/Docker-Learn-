@@ -13,7 +13,7 @@ pipeline {
             steps {
                 echo 'Building Frontend and Backend Images...'
                 // docker-compose.yml එකට අනුව images දෙකම අලුතින් build කරනවා
-                bat 'docker-compose build'
+                bat 'docker compose build'
             }
         }
 
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 echo 'Starting Containers...'
                 // Containers ටික background එකේ (-d) run කරනවා
-                bat 'docker-compose up -d'
+                bat 'docker compose up -d'
             }
         }
     }
