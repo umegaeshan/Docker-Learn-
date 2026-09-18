@@ -2,18 +2,30 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+// E-commerce වෙබ් අඩවියකට ගැළපෙන ප්‍රධාන කාණ්ඩ ලැයිස්තුව
+const predefinedCategories = [
+  "Electronics",
+  "Clothing & Apparel",
+  "Home & Kitchen",
+  "Beauty & Personal Care",
+  "Sports & Outdoors",
+  "Footwear",
+  "Books & Stationery",
+  "Other"
+];
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('userInfo'));
 
-  // 🔴 API Base URL එක මෙතනින් සකස් කර ඇත (Docker/Production වලදී පහසු වීමට)
+  // 🔴 API Base URL එක මෙතනින් සකස් කර ඇත
   const BASE_URL = 'http://localhost:5000/api';
 
   const [activeTab, setActiveTab] = useState('addProduct');
   const [products, setProducts] = useState([]);
   const [users, setUsers] = useState([]);
 
-  // Product Form States (Main Image + Extra 3 Images)
+  // Product Form States
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
@@ -45,7 +57,6 @@ const AdminDashboard = () => {
 
   const config = { headers: { Authorization: `Bearer ${user.token}` } };
 
-  // API Calls සඳහා BASE_URL භාවිතා කර ඇත
   const fetchProducts = () => axios.get(`${BASE_URL}/products`).then((res) => setProducts(res.data));
   const fetchUsers = () => axios.get(`${BASE_URL}/users`, config).then((res) => setUsers(res.data));
   const fetchOrders = () => axios.get(`${BASE_URL}/orders`, config).then((res) => setOrders(res.data));
@@ -186,7 +197,22 @@ const AdminDashboard = () => {
               <div><label className="block text-gray-700 font-bold mb-2">Price</label><input type="number" value={price} onChange={(e) => setPrice(e.target.value)} required className="w-full px-3 py-2 border rounded" /></div>
 
               <div><label className="block text-gray-700 font-bold mb-2">Main Image URL</label><input type="text" value={image} onChange={(e) => setImage(e.target.value)} required className="w-full px-3 py-2 border rounded" /></div>
-              <div><label className="block text-gray-700 font-bold mb-2">Category</label><input type="text" value={category} onChange={(e) => setCategory(e.target.value)} required className="w-full px-3 py-2 border rounded" /></div>
+              
+              {/* Category Dropdown for Add Product */}
+              <div>
+                <label className="block text-gray-700 font-bold mb-2">Category</label>
+                <select 
+                  value={category} 
+                  onChange={(e) => setCategory(e.target.value)} 
+                  required 
+                  className="w-full px-3 py-2 border rounded bg-white"
+                >
+                  <option value="" disabled>Select a Category</option>
+                  {predefinedCategories.map((cat, idx) => (
+                    <option key={idx} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              </div>
 
               <div><label className="block text-gray-700 font-bold mb-2">Extra Image 1 (URL)</label><input type="text" value={image2} onChange={(e) => setImage2(e.target.value)} className="w-full px-3 py-2 border rounded" /></div>
               <div><label className="block text-gray-700 font-bold mb-2">Extra Image 2 (URL)</label><input type="text" value={image3} onChange={(e) => setImage3(e.target.value)} className="w-full px-3 py-2 border rounded" /></div>
@@ -211,11 +237,29 @@ const AdminDashboard = () => {
                 <form onSubmit={submitProductHandler} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div><label className="text-sm font-bold">Name</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full px-2 py-1 border rounded" /></div>
                   <div><label className="text-sm font-bold">Price</label><input type="number" value={price} onChange={(e) => setPrice(e.target.value)} required className="w-full px-2 py-1 border rounded" /></div>
+                  
+                  {/* Category Dropdown for Edit Product */}
+                  <div>
+                    <label className="text-sm font-bold block mb-1">Category</label>
+                    <select 
+                      value={category} 
+                      onChange={(e) => setCategory(e.target.value)} 
+                      required 
+                      className="w-full px-2 py-1 border rounded bg-white"
+                    >
+                      <option value="" disabled>Select a Category</option>
+                      {predefinedCategories.map((cat, idx) => (
+                        <option key={idx} value={cat}>{cat}</option>
+                      ))}
+                    </select>
+                  </div>
+
                   <div><label className="text-sm font-bold">Main Image URL</label><input type="text" value={image} onChange={(e) => setImage(e.target.value)} required className="w-full px-2 py-1 border rounded" /></div>
                   <div><label className="text-sm font-bold">Extra Image 1</label><input type="text" value={image2} onChange={(e) => setImage2(e.target.value)} className="w-full px-2 py-1 border rounded" /></div>
                   <div><label className="text-sm font-bold">Extra Image 2</label><input type="text" value={image3} onChange={(e) => setImage3(e.target.value)} className="w-full px-2 py-1 border rounded" /></div>
                   <div><label className="text-sm font-bold">Extra Image 3</label><input type="text" value={image4} onChange={(e) => setImage4(e.target.value)} className="w-full px-2 py-1 border rounded" /></div>
                   <div><label className="text-sm font-bold">Count in Stock</label><input type="number" value={countInStock} onChange={(e) => setCountInStock(e.target.value)} required className="w-full px-2 py-1 border rounded" /></div>
+                  
                   <div className="flex gap-2 mt-4 md:col-span-2">
                     <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded font-bold">Update</button>
                     <button type="button" onClick={() => setEditingProduct(null)} className="bg-gray-400 text-white px-4 py-2 rounded font-bold">Cancel</button>
@@ -228,7 +272,7 @@ const AdminDashboard = () => {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-gray-100 border-b">
-                    <th className="p-3">Image</th><th className="p-3">Name</th><th className="p-3">Price</th><th className="p-3">Stock</th><th className="p-3">Actions</th>
+                    <th className="p-3">Image</th><th className="p-3">Name</th><th className="p-3">Category</th><th className="p-3">Price</th><th className="p-3">Stock</th><th className="p-3">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -236,6 +280,7 @@ const AdminDashboard = () => {
                     <tr key={product._id} className="border-b hover:bg-gray-50">
                       <td className="p-3"><img src={product.image} alt={product.name} className="w-12 h-12 object-cover rounded shadow-sm" /></td>
                       <td className="p-3 font-bold text-gray-800">{product.name}</td>
+                      <td className="p-3 text-gray-600 text-sm">{product.category}</td>
                       <td className="p-3 text-green-600 font-bold">රු. {product.price}</td>
                       <td className="p-3">{product.countInStock}</td>
                       <td className="p-3 flex gap-2">
