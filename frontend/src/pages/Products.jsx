@@ -2,6 +2,18 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
+// E-commerce වෙබ් අඩවියකට ගැළපෙන ප්‍රධාන කාණ්ඩ ලැයිස්තුව
+const predefinedCategories = [
+  "Electronics",
+  "Clothing & Apparel",
+  "Home & Kitchen",
+  "Beauty & Personal Care",
+  "Sports & Outdoors",
+  "Footwear",
+  "Books & Stationery",
+  "Other"
+];
+
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +46,8 @@ const Products = () => {
     fetchProducts();
   }, []);
 
-  const categories = ['All', ...new Set(products.map(p => p.category))];
+  // ස්ථාවර කාණ්ඩ ලැයිස්තුවට 'All' යන්න එකතු කිරීම
+  const categories = ['All', ...predefinedCategories];
 
   const filteredProducts = products.filter((product) => {
     const matchSearch = searchQuery === '' || 
@@ -58,7 +71,6 @@ const Products = () => {
   if (loading) return <div className="text-center p-10 font-bold text-xl mt-32 text-gray-500">Loading Products...</div>;
 
   return (
-    // mt-12 සහ py-8 යොදා ඇත්තේ Navbar එකට යටින් හැංගෙන එක වළක්වන්නයි. w-full මගින් තිරය සම්පූර්ණයෙන් භාවිත කරයි.
     <div className="px-4 md:px-8 lg:px-12 py-8 mt-12 font-sans text-gray-800 w-full min-h-[75vh]">
       
       {/* Header Section */}
@@ -129,7 +141,6 @@ const Products = () => {
 
         {/* දකුණු පස - Product Grid */}
         <div className="flex-1">
-          {/* මෙහි xl:grid-cols-4 යෙදීමෙන් විශාල තිරවලදී පේළියකට භාණ්ඩ 4ක් පෙන්වයි */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
               <div key={product._id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
@@ -148,7 +159,7 @@ const Products = () => {
                 <div className="px-5 pb-5 pt-2 flex flex-col flex-grow justify-end">
                   <p className="text-sm text-gray-500 mb-4 line-clamp-2">{product.description}</p>
                   <div className="flex justify-between items-center mb-4">
-                    <span className="text-xl font-black text-green-600 tracking-tight">රු. {product.price}</span>
+                    <span className="text-xl font-black text-green-600 tracking-tight">Rs. {product.price}</span>
                   </div>
                   <Link 
                     to={`/product/${product._id}`} 
@@ -169,7 +180,7 @@ const Products = () => {
                  </svg>
               </div>
               <p className="text-gray-500 text-lg font-bold mb-6">
-                we're sorry, but no products match your search or filter criteria. Please try adjusting your filters or search terms to find what you're looking for.
+                We're sorry, but no products match your search or filter criteria. Please try adjusting your filters or search terms to find what you're looking for.
               </p>
               <button 
                 onClick={clearFilters} 
