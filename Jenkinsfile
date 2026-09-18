@@ -21,7 +21,7 @@ pipeline {
             steps {
                 echo 'Starting Containers...'
                 // Containers ටික background එකේ (-d) run කරනවා
-                bat 'dockercompose up -d'
+                bat 'docker compose up -d'
             }
         }
     }
