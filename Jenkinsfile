@@ -11,7 +11,7 @@ pipeline {
                     
                     // Windows Jenkins හරහා AWS සර්වර් එකට SSH වී කමාන්ඩ්ස් යැවීම
                     bat """
-                        ssh -o StrictHostKeyChecking=no ubuntu@<AWS_PUBLIC_IP> "
+                        ssh -o StrictHostKeyChecking=no ubuntu@13.234.56.78 "
                             echo 'Connected to AWS successfully!' &&
                             
                             if [ ! -d 'GrR-ECommerce' ]; then
