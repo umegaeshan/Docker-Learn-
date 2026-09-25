@@ -19,7 +19,7 @@ const AdminDashboard = () => {
   const user = JSON.parse(localStorage.getItem('userInfo'));
 
   // 🔴 API Base URL එක මෙතනින් සකස් කර ඇත
-  const BASE_URL = 'http://localhost:5000/api';
+  const BASE_URL = 'http://13.60.53.69:5000/api';
 
   const [activeTab, setActiveTab] = useState('addProduct');
   const [products, setProducts] = useState([]);
