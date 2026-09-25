@@ -6,25 +6,11 @@ pipeline {
             steps {
                 echo 'Connecting to AWS EC2 Server...'
                 
-                // අර අපි හංගපු .pem කී එක පාවිච්චි කරන්න කියලා Jenkins ට කියනවා
                 sshagent(['aws-ec2-key']) {
                     
-                    // Windows Jenkins හරහා AWS සර්වර් එකට SSH වී කමාන්ඩ්ස් යැවීම
+                    // Windows CMD සඳහා සියලුම SSH විධානයන් එකම පේළියකට ගෙන ඇත
                     bat """
-                        ssh -o StrictHostKeyChecking=no ubuntu@13.234.56.78 "
-                            echo 'Connected to AWS successfully!' &&
-                            
-                            if [ ! -d 'GrR-ECommerce' ]; then
-                                git clone https://github.com/umegaeshan/Docker-Learn-.git GrR-ECommerce
-                            fi &&
-                            
-                            cd GrR-ECommerce &&
-                            git pull origin main &&
-                            
-                            echo 'Building and starting Docker containers on AWS...' &&
-                            docker compose down &&
-                            docker compose up -d --build
-                        "
+                        ssh -o StrictHostKeyChecking=no ubuntu@13.60.53.69 "echo 'Connected to AWS successfully!' && if [ ! -d 'GrR-ECommerce' ]; then git clone https://github.com/umegaeshan/Docker-Learn-.git GrR-ECommerce; fi && cd GrR-ECommerce && git pull origin main && docker compose down && docker compose up -d --build"
                     """
                 }
             }
