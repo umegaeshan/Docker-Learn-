@@ -11,7 +11,7 @@ const Register = () => {
 const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://13.60.53.69:5000/api/users/register', { 
+      await axios.post('https://grr-ecommerce.duckdns.org/api/users/register', { 
         name, 
         email, 
         password 

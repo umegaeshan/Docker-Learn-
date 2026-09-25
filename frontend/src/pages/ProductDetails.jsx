@@ -15,7 +15,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://13.60.53.69:5000/api/products/${id}`);
+        const response = await axios.get(`https://grr-ecommerce.duckdns.org/api/products/${id}`);
         setProduct(response.data);
         // මුලින්ම පෙන්වන්නේ ප්‍රධාන image එකයි. වෙනත් images නැත්නම් ප්‍රධාන එකම ගන්නවා.
         setSelectedImage(response.data.image);

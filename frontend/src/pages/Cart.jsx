@@ -34,7 +34,7 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     try {
-      const response = await axios.post('http://13.60.53.69:5000/api/stripe/create-checkout-session', {
+      const response = await axios.post('https://grr-ecommerce.duckdns.org/api/stripe/create-checkout-session', {
         cartItems,
       });
       if (response.data.url) {

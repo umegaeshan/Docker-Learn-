@@ -13,7 +13,7 @@ const Login = () => {
   const handleNormalLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://13.60.53.69:5000/api/users/login', { name, password });
+      const response = await axios.post('https://grr-ecommerce.duckdns.org/api/users/login', { name, password });
       
       localStorage.setItem('userInfo', JSON.stringify(response.data));
       alert('Successfully logged in!');
@@ -33,7 +33,7 @@ const Login = () => {
   // 2. Google Login සාර්ථක වූ විට
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const response = await axios.post('http://13.60.53.69:5000/api/users/google', {
+      const response = await axios.post('https://grr-ecommerce.duckdns.org/api/users/google', {
         token: credentialResponse.credential,
       });
       
