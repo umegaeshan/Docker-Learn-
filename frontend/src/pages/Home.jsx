@@ -50,7 +50,7 @@ const Home = () => {
           </p>
           <button 
             onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
-            className="mt-12 bg-green-500 hover:bg-green-400 text-white font-bold py-4 px-12 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(34,197,94,0.4)]"
+            className="mt-12 bg-green-500 hover:bg-blue-400 text-white font-bold py-4 px-12 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(34,197,94,0.4)]"
           >
             Shop Now
           </button>

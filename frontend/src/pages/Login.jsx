@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  // 1. සාමාන්‍ය Login ක්‍රියාවලිය
+  // 1. normal login 
   const handleNormalLogin = async (e) => {
     e.preventDefault();
     try {
@@ -18,11 +18,11 @@ const Login = () => {
       localStorage.setItem('userInfo', JSON.stringify(response.data));
       alert('Successfully logged in!');
       
-      // Admin කෙනෙක් නම් කෙලින්ම Admin Dashboard එකට යවනවා
+      
       if (response.data.isAdmin) {
         navigate('/admin');
       } else {
-        navigate('/'); // සාමාන්‍ය කෙනෙක් නම් Home පිටුවට යවනවා
+        navigate('/'); 
       }
       
     } catch (error) {
@@ -30,7 +30,7 @@ const Login = () => {
     }
   };
 
-  // 2. Google Login සාර්ථක වූ විට
+  // 2. Google Login 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       const response = await axios.post('https://grr-ecommerce.duckdns.org/api/users/google', {
